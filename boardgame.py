@@ -1,6 +1,7 @@
 #Dean Church
 #Chutes and Ladders
 
+#DOES NOT RUN
 import random
 
 # global constance
@@ -46,6 +47,8 @@ class Player(object):
             elif self.player_num == 4:
                 p4p[oldpos] = EMPTY
                 p4p[self.position] = self.peice
+            input("press enter")
+
     def win(self):
         if self.position == 99:
             return self.peice
@@ -54,7 +57,7 @@ class Player(object):
 class Board(object):
     def __init__(self):
         self.board = []
-    def create_space(self):
+    def create_spaces(self):
         esp = Space(0)
         for i in range(100):
             self.board.append(esp)
@@ -81,6 +84,12 @@ class Board(object):
         self.board[79] = sp80
         self.board[0] = sp1
         self.board[3] = sp4
+
+    EMPTY = " "
+    p1p.append(EMPTY)
+    p2p.append(EMPTY)
+    p3p.append(EMPTY)
+    p4p.append(EMPTY)
 
 
     def display_board(self):
@@ -203,14 +212,17 @@ class Space(object):
 
 #functions
 ###########################################
-def ask_num():
-    num_players = input("How many players")
-    if num_players.isalpha:
-        print("you can't do that")
-    elif num_players <2 and num_players >4:
-        print("you can't do that")
-    else:
-        print("alright")
+def ask_num(question,low,high):
+    while True:
+        num = input(question)
+        try:
+            num = int(num)
+            if num in range(low,high,+1):
+                return num
+            else:
+                print("you must chose a number between ",low,"and",high)
+        except:
+            print("that was not a number")
 
 def switch_turn(num_players,turn):
     while True:
@@ -224,7 +236,7 @@ def winner_grats():
     print("congratulations for winning")
 
 def main():
-    num_players = ask_num("how many player will be playing",2,4)
+    num_players = ask_num("how many players will be playing",2,5)
     players = []
     turn = 0
     winner = None
@@ -237,16 +249,16 @@ def main():
     board = Board()
     board.create_spaces()
     while not winner:
-        print(players[turn].name +"peice " + players[turn].peice+"it is your turn")
+        print(players[turn].name + "peice" + players[turn].peice+"it is your turn")
         input("press enter to roll")
         players[turn].move()
         playpos = players[turn].position
         space = board.board[playpos]
         space.move_player(players[turn],board)
+    if not winner:
+        turn = switch_turn(num_players,turn)
+    winner_grates()
 
-
-
-ask_num()
 main()
 
 
