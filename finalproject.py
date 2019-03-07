@@ -46,7 +46,9 @@ class Flashcard(object):
         else:
             print("You have already made that word")
             input("Press enter")
-
+            
+    def viewcard(self,card,term,terms):
+        print(terms)
 
 
 def main():
